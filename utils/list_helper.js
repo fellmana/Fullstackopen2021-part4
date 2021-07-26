@@ -12,12 +12,38 @@ const favouriteBlog = (blogs) => {
 }
  
 const mostBlogs = (blogs) => {
-    _.each(_.groupBy(blogs,"author"),(obj,key) => console.log(obj.length,key))
+    const result = {
+        author:null,
+        blogs:null
+    }
+    _.each(_.groupBy(blogs,"author"),(obj,key) => {
+        if (result.blogs < obj.length) {
+            result.author = key
+            result.blogs = obj.length
+        }
+    })
+    return result
 }
+
+const mostLikes = (blogs) => {
+    const result = {
+        author:null,
+        likes:null
+    }
+    _.each(_.groupBy(blogs,"author"),(obj,key) => {
+        if (result.likes < _.sumBy(obj,'likes')) {
+            result.author = key
+            result.likes = _.sumBy(obj,'likes')
+        }
+    })
+    return result   
+}
+
 
 module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }

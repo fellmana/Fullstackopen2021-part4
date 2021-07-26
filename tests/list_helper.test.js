@@ -108,6 +108,16 @@ describe('Most blogs', () =>{
 
     test('gives correct author and value', () => {
         const result = listHelper.mostBlogs(blogs)
+        expect(result).toEqual({author:"Robert C. Martin", blogs:3})
+    })
+
+})
+
+describe('Most likes', () => {
+
+    test('gives correct author and value', () => {
+        const result = listHelper.mostLikes(blogs)
+        expect(result).toEqual({author:"Edsger W. Dijkstra", likes:17})
     })
 
 })
