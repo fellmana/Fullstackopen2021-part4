@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 
 {
-    "title":"test2",
+    "title":"test3",
     "author":"matti meikäläinen",
     "url":"test.url",
-    "likes":10
+    "likes":5,
+    "user":"6102bb6957bb9301422a257b"
 }

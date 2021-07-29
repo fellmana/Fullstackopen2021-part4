@@ -36,7 +36,8 @@ describe('When there is initially blogs saved,', () => {
                 "title": "test2",
                 "author": "matti meikäläinen",
                 "url": "test.url",
-                "likes": 10
+                "likes": "10",
+                "user":"61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
@@ -55,6 +56,7 @@ describe('When there is initially blogs saved,', () => {
                 "title": "test2",
                 "author": "matti meikäläinen",
                 "url": "test.url",
+                "user":"61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
@@ -70,6 +72,7 @@ describe('When there is initially blogs saved,', () => {
             const newBlog = {
                 "author": "matti meikäläinen",
                 "url": "test.url",
+                "user":"61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
@@ -83,6 +86,7 @@ describe('When there is initially blogs saved,', () => {
             const newBlog = {
                 "title": "test2",
                 "url": "test.url",
+                "user":"61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')

@@ -14,7 +14,7 @@ describe('Db has users initially', () => {
         await User.deleteMany({})
 
         const passwordHash = await bcrypt.hash('sekret', 10)
-        const user = new User({ username: 'root', passwordHash })
+        const user = new User({_id:'61016603c7e19b1c5d2ca296', username: 'root', passwordHash })
 
         await user.save()
     })
@@ -69,4 +69,8 @@ describe('Db has users initially', () => {
         expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
 
+})
+
+afterAll(() => {
+    mongoose.connection.close()
 })
