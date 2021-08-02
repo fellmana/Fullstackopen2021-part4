@@ -12,7 +12,7 @@ describe('When there is initially blogs saved,', () => {
     beforeEach(async () => {
         const loginToken = await api
             .post('/api/login/')
-            .send({username:"root",password:"sekret"})
+            .send({ username: "root", password: "sekret" })
             .expect(200)
         token = loginToken.body
         await Blog.deleteMany({})
@@ -22,18 +22,18 @@ describe('When there is initially blogs saved,', () => {
     test('blogs are returned as json', async () => {
         await api
             .get('/api/blogs')
-            .set('Authorization',`bearer ${token.token}`)
+            .set('Authorization', `bearer ${token.token}`)
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
 
     test('There are 3 blogs', async () => {
-        const response = await api.get('/api/blogs').set('Authorization',`bearer ${token.token}`)
+        const response = await api.get('/api/blogs').set('Authorization', `bearer ${token.token}`)
         expect(response.body).toHaveLength(helper.initialBlogs.length)
     })
 
     test('The first blog gives Correct', async () => {
-        const response = await api.get('/api/blogs').set('Authorization',`bearer ${token.token}`)
+        const response = await api.get('/api/blogs').set('Authorization', `bearer ${token.token}`)
         expect(response.body[0].title).toBe(helper.initialBlogs[0].title)
     })
 
@@ -44,12 +44,12 @@ describe('When there is initially blogs saved,', () => {
                 "author": "matti meikäläinen",
                 "url": "test.url",
                 "likes": "10",
-                "user":"61016603c7e19b1c5d2ca296"
+                "user": "61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
                 .send(newBlog)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(200)
                 .expect('Content-Type', /application\/json/)
             const blogsAtTheEnd = await helper.blogsInDb()
@@ -64,16 +64,16 @@ describe('When there is initially blogs saved,', () => {
                 "author": "matti meikäläinen",
                 "url": "test.url",
                 "likes": "10",
-                "user":"61016603c7e19b1c5d2ca296"
+                "user": "61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
                 .send(newBlog)
-                .set('Authorization',`bearer `)
+                .set('Authorization', `bearer `)
                 .expect(401)
                 .expect('Content-Type', /application\/json/)
             const blogsAtTheEnd = await helper.blogsInDb()
-            expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length )
+            expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length)
         })
 
         test('blog without likes get 0', async () => {
@@ -81,12 +81,12 @@ describe('When there is initially blogs saved,', () => {
                 "title": "test2",
                 "author": "matti meikäläinen",
                 "url": "test.url",
-                "user":"61016603c7e19b1c5d2ca296"
+                "user": "61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
                 .send(newBlog)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(200)
                 .expect('Content-Type', /application\/json/)
             const blogsAtTheEnd = await helper.blogsInDb()
@@ -98,12 +98,12 @@ describe('When there is initially blogs saved,', () => {
             const newBlog = {
                 "author": "matti meikäläinen",
                 "url": "test.url",
-                "user":"61016603c7e19b1c5d2ca296"
+                "user": "61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
                 .send(newBlog)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(400)
             const blogsAtTheEnd = await helper.blogsInDb()
             expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length)
@@ -113,29 +113,29 @@ describe('When there is initially blogs saved,', () => {
             const newBlog = {
                 "title": "test2",
                 "url": "test.url",
-                "user":"61016603c7e19b1c5d2ca296"
+                "user": "61016603c7e19b1c5d2ca296"
             }
             await api
                 .post('/api/blogs')
                 .send(newBlog)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(400)
             const blogsAtTheEnd = await helper.blogsInDb()
             expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length)
 
         })
     })
-    describe('When deleting a blog', () =>{
+    describe('When deleting a blog', () => {
 
-        test('succeeds with status 204 if id is valid', async () =>{
+        test('succeeds with status 204 if id is valid', async () => {
             const blogsAtTheStart = await helper.blogsInDb()
             const blogToDelete = blogsAtTheStart[0]
 
             await api
                 .delete(`/api/blogs/${blogToDelete.id}`)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(204)
-            
+
             const blogsAtTheEnd = await helper.blogsInDb()
             expect(blogsAtTheEnd).toHaveLength(helper.initialBlogs.length - 1)
 
@@ -145,7 +145,7 @@ describe('When there is initially blogs saved,', () => {
         })
 
     })
-    describe('When editing a blog',  () =>{
+    describe('When editing a blog', () => {
         test(' with new author gives correct', async () => {
             const blogsAtTheStart = await helper.blogsInDb()
             const blogToUpdate = blogsAtTheStart[0]
@@ -153,7 +153,7 @@ describe('When there is initially blogs saved,', () => {
             await api
                 .put(`/api/blogs/${blogToUpdate.id}`)
                 .send(blogToUpdate)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(200)
             blogsAtTheEnd = await helper.blogsInDb()
             const authors = blogsAtTheEnd.map(b => b.author)
@@ -167,7 +167,7 @@ describe('When there is initially blogs saved,', () => {
             await api
                 .put(`/api/blogs/${blogToUpdate.id}`)
                 .send(blogToUpdate)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(200)
             blogsAtTheEnd = await helper.blogsInDb()
             const titles = blogsAtTheEnd.map(b => b.title)
@@ -182,7 +182,7 @@ describe('When there is initially blogs saved,', () => {
             await api
                 .put(`/api/blogs/${blogToUpdate.id}`)
                 .send(blogToUpdate)
-                .set('Authorization',`bearer ${token.token}`)
+                .set('Authorization', `bearer ${token.token}`)
                 .expect(200)
             blogsAtTheEnd = await helper.blogsInDb()
             const likes = blogsAtTheEnd.map(b => b.likes)

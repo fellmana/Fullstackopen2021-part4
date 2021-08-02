@@ -7,7 +7,7 @@ const User = require('../models/user')
 
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user',{username:1,name:1,id:1})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
   response.json(blogs.map(blog => blog.toJSON()))
 })
 
@@ -32,14 +32,15 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const user = request.user
   const blog = await Blog.findById(request.params.id)
-  
+
   if (user.id === blog.user.toString()) {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
-  }else {
-  response.status(401).json({
-    error:'token does not mach user'
-  })}
+  } else {
+    response.status(401).json({
+      error: 'token does not match user'
+    })
+  }
 })
 
 

@@ -4,19 +4,19 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-    return blogs.reduce((likes, obj) => obj.likes + likes,0)
+    return blogs.reduce((likes, obj) => obj.likes + likes, 0)
 }
 
 const favouriteBlog = (blogs) => {
-    return blogs.reduce((most,blog) =>  most = most.likes > blog.likes ? most : blog, 0)
+    return blogs.reduce((most, blog) => most = most.likes > blog.likes ? most : blog, 0)
 }
- 
+
 const mostBlogs = (blogs) => {
     const result = {
-        author:null,
-        blogs:null
+        author: null,
+        blogs: null
     }
-    _.each(_.groupBy(blogs,"author"),(obj,key) => {
+    _.each(_.groupBy(blogs, "author"), (obj, key) => {
         if (result.blogs < obj.length) {
             result.author = key
             result.blogs = obj.length
@@ -27,16 +27,16 @@ const mostBlogs = (blogs) => {
 
 const mostLikes = (blogs) => {
     const result = {
-        author:null,
-        likes:null
+        author: null,
+        likes: null
     }
-    _.each(_.groupBy(blogs,"author"),(obj,key) => {
-        if (result.likes < _.sumBy(obj,'likes')) {
+    _.each(_.groupBy(blogs, "author"), (obj, key) => {
+        if (result.likes < _.sumBy(obj, 'likes')) {
             result.author = key
-            result.likes = _.sumBy(obj,'likes')
+            result.likes = _.sumBy(obj, 'likes')
         }
     })
-    return result   
+    return result
 }
 
 
