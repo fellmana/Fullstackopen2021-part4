@@ -1,7 +1,9 @@
 const blogsRouter = require('express').Router()
-const { response } = require('express')
+const { response, request } = require('express')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+
+
 
 
 blogsRouter.get('/', async (request, response) => {
@@ -10,8 +12,7 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-
-  const user =  await User.findById(request.body.user)
+  const user = request.user
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
@@ -21,6 +22,7 @@ blogsRouter.post('/', async (request, response) => {
       : request.body.likes,
     user: user._id
   })
+
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
@@ -28,8 +30,16 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  const user = request.user
+  const blog = await Blog.findById(request.params.id)
+  
+  if (user.id === blog.user.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  }else {
+  response.status(401).json({
+    error:'token does not mach user'
+  })}
 })
 
 

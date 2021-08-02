@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
+Authorization: bearer 
 
 {
-    "title":"test3",
+    "title":"testToken",
     "author":"matti meikäläinen",
     "url":"test.url",
-    "likes":5,
+    "likes":0,
     "user":"6102bb6957bb9301422a257b"
 }
